@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: url('22222.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 500px;
+            height: 400px;
+            background: rgba(174, 108, 108, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            color: #fff;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+        }
+        input {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+        button {
+            background: #23a2f6;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .toggle-btns div {
+            display: inline-block;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="form-title">Login</h2>
+        <div class="toggle-btns">
+            <div onclick="switchForm('customer')">Customer</div>
+            <div onclick="switchForm('admin')">Admin</div>
+        </div>
+
+        <div id="customer-form">
+            <input type="email" id="customer-email" placeholder="Enter Email" required>
+            <button onclick="sendOTP()">Send OTP</button>
+            <div id="otp-section" class="hidden">
+                <input type="text" id="otp-input" placeholder="Enter OTP">
+                <button onclick="verifyOTP()">Verify OTP</button>
+                <p id="message"></p>
+            </div>
+        </div>
+
+        <div id="admin-form" class="hidden">
+            <input type="text" id="admin-username" placeholder="Username">
+            <input type="password" id="admin-password" placeholder="Password">
+            <button onclick="adminLogin()">Login</button>
+        </div>
+    </div>
+
+    <script>
+        let generatedOTP;
+        function switchForm(type) {
+            document.getElementById('customer-form').classList.toggle('hidden', type !== 'customer');
+            document.getElementById('admin-form').classList.toggle('hidden', type !== 'admin');
+            document.getElementById('form-title').textContent = type === 'customer' ? 'Customer Signup' : 'Admin Login';
+        }
+
+        function sendOTP() {
+            const email = document.getElementById("customer-email").value;
+            if (!email) return alert("Please enter your email");
+            generatedOTP = Math.floor(1000 + Math.random() * 9000);
+            alert("Your OTP is: " + generatedOTP);
+            document.getElementById("otp-section").classList.remove("hidden");
+        }
+
+        function verifyOTP() {
+            if (document.getElementById("otp-input").value == generatedOTP) {
+                alert("OTP Verified! Redirecting...");
+                window.location.href = "index.html";
+            } else {
+                document.getElementById("message").textContent = "Invalid OTP. Try again.";
+            }
+        }
+
+        function adminLogin() {
+            const username = document.getElementById("admin-username").value;
+            const password = document.getElementById("admin-password").value;
+            if (username === "admin123" && password === "admin@pass") {
+                alert("Admin Login Successful!");
+                window.location.href = "admin.html";
+            } else {
+                alert("Invalid Admin Credentials!");
+            }
+        }
+    </script>
+</body>
+</html>
